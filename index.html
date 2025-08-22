@@ -3,9 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Italian Flashcards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #008C45; /* Italian green */
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subhead {
+            color: #CD212A; /* Italian red */
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        nav {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            border: 2px solid #CD212A; /* Italian red */
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, background-color 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            color: #008C45;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            background-color: #F4F4F4;
+        }
+
+        /* Green stripe on left side */
+        .card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 6px;
+            background-color: #008C45;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    
+
+    <header>
+        <h1>Enjoy these Italian Flashcards!</h1>
+    </header>
+    <h2 class="subhead">Basic Italian Vocabulary:</h2>
+
+    <nav>
+        <div class="cards-container">
+<!--        <a href="150verbs.html" class="card">150 Most Common Italian Verbs</a>
+            <a href="ImportantWordsPhrases.html" class="card">Important Words and Phrases</a>
+            <a href="FoodAndDrink.html" class="card">Food and Drink</a>
+            <a href="flashcard_Italian.html" class="card">2000 Most Common Words</a> -->
+            <a href="150verbs_v4.html" class="card">150 Most Common Italian Verbs</a>
+            <a href="importantwordsphrases_v4.html" class="card">Important Words and Phrases</a>
+            <a href="foodanddrink_v4.html" class="card">Food and Drink</a>
+            <a href="2000words_v4.html" class="card">Top 2000 Words</a>
+        </div>
+    </nav>
+        <h2 class="subhead">Basic Italian Verb Conjugations:</h2>
+    <nav>
+        <div class="cards-container">
+            <a href="basicIrrs.html" class="card">Three Irregular Verbs</a>
+            <a href="areConjugation.html" class="card">"are" Verbs</a>
+<!--             <a href="anthv2.html" class="card">"are" Verbs - Version 2</a>
+            <a href="anthv3.html" class="card">"are" Verbs - Version 3</a> -->
+            <a href="ereConjugation.html" class="card">"ere" Verbs</a>
+            <a href="ireConjugation.html" class="card">"ire" Verbs</a>
+        </div>
+    </nav>    
+
 </body>
 </html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italian Conjugation</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f6f6f6;
+    color: #333;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  h1 {
+    margin: 10px 0 20px;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 600;
+  }
+  
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* two equal columns */
+  gap: clamp(10px, 3vw, 30px);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 5px;
+  align-items: stretch; /* force equal column height */
+}
+  
+  .column {
+  display: grid;
+  grid-auto-rows: 1fr; /* every card row same height */
+  gap: 8px;
+}
+  
+.card {
+  background: white;
+  padding: clamp(8px, 3vw, 15px) clamp(10px, 3vw, 20px);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  font-size: clamp(0.85rem, 3.5vw, 1rem);
+  word-wrap: break-word;
+  hyphens: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px solid transparent;
+}
+  
+  .card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  }
+  
+  .card:active {
+    transform: translateY(0);
+  }
+  
+  .card.selected {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+  }
+  
+  .card.correct {
+    background: #e8f5e8;
+    border-color: #4caf50;
+    text-decoration: line-through;
+    cursor: default;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  
+  .card.wrong {
+    background: #ffebee;
+    border-color: #f44336;
+    animation: shake 0.3s;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+  }
+  
+  #next-round {
+    margin: 20px auto 10px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+    min-height: 44px;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  }
+  
+  #next-round:hover {
+    background: #1976d2;
+  }
+  
+  #next-round:active {
+    background: #1565c0;
+  }
+  
+.home-link a {
+  display: inline-block;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #008C45 0%, #CD212A 100%);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.18);
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.home-link a:hover {
+  background: linear-gradient(90deg, #1976d2 0%, #00bcd4 100%);
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.28);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.home-link a:active {
+  background: linear-gradient(90deg, #1565c0 0%, #0097a7 100%);
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.15);
+  transform: translateY(0) scale(0.98);
+}
+  
+  /* Mobile optimizations */
+  @media (max-width: 480px) {
+    body {
+      padding: 5px;
+    }
+    
+    .game-container {
+      gap: 8px;
+      padding: 0 2px;
+    }
+    
+    .column {
+      gap: 6px;
+    }
+    
+    .card {
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      margin: 5px 0 15px;
+
+    }
+        #next-round {
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      transform: none;
+      max-width: calc(100vw - 20px);
+    }
+  }
+
+    /* Larger screens - show button inline */
+  @media (min-width: 769px) {
+    .game-container {
+      padding-bottom: 0;
+    }
+    
+    #next-round {
+      position: static;
+      transform: none;
+      margin: 20px auto 10px;
+      box-shadow: none;
+    }
+  }
+  
+  /* Prevent zoom on double tap */
+  .card {
+    touch-action: manipulation;
+  }
+</style>
+</head>
+<body>
+<h1 id="page-title">Reflexive Verbs</h1>
+<div class="home-link">
+  <p><a href="index.html">Flashcard Home</a></p>
+</div>
+<div class="game-container">
+  <div id="english-column" class="column"></div>
+  <div id="italian-column" class="column"></div>
+</div>
+<button id="next-round">Next Round</button>
+
+<script>
+// Default dataset - will be replaced by page-specific data
+let words = [
+  ["mi alzo", "I get up"],
+  ["ti alzi", "you get up"],
+  ["si alza", "he/she gets up"],
+  ["ci alziamo", "we get up"],
+  ["vi alzate", "you (pl.) get up"],
+  ["si alzano", "they get up"],
+
+  ["mi sposo", "I get married"],
+  ["ti sposi", "you get married"],
+  ["si sposa", "he/she gets married"],
+  ["ci sposiamo", "we get married"],
+  ["vi sposate", "you (pl.) get married"],
+  ["si sposano", "they get married"],
+
+  ["mi arrabbio", "I get angry"],
+  ["ti arrabbi", "you get angry"],
+  ["si arrabbia", "he/she gets angry"],
+  ["ci arrabbiamo", "we get angry"],
+  ["vi arrabbiate", "you (pl.) get angry"],
+  ["si arrabbiano", "they get angry"],
+
+  ["mi metto", "I put on"],
+  ["ti metti", "you put on"],
+  ["si mette", "he/she puts on"],
+  ["ci mettiamo", "we put on"],
+  ["vi mettete", "you (pl.) put on"],
+  ["si mettono", "they put on"],
+
+  ["mi prendo", "I take (care of)"],
+  ["ti prendi", "you take (care of)"],
+  ["si prende", "he/she takes (care of)"],
+  ["ci prendiamo", "we take (care of)"],
+  ["vi prendete", "you (pl.) take (care of)"],
+  ["si prendono", "they take (care of)"],
+
+  ["mi rendo conto", "I realize"],
+  ["ti rendi conto", "you realize"],
+  ["si rende conto", "he/she realizes"],
+  ["ci rendiamo conto", "we realize"],
+  ["vi rendete conto", "you (pl.) realize"],
+  ["si rendono conto", "they realize"],
+
+  ["mi vesto", "I get dressed"],
+  ["ti vesti", "you get dressed"],
+  ["si veste", "he/she gets dressed"],
+  ["ci vestiamo", "we get dressed"],
+  ["vi vestite", "you (pl.) get dressed"],
+  ["si vestono", "they get dressed"],
+
+  ["mi diverto", "I have fun"],
+  ["ti diverti", "you have fun"],
+  ["si diverte", "he/she has fun"],
+  ["ci divertiamo", "we have fun"],
+  ["vi divertite", "you (pl.) have fun"],
+  ["si divertono", "they have fun"],
+
+  ["mi sento", "I feel"],
+  ["ti senti", "you feel"],
+  ["si sente", "he/she feels"],
+  ["ci sentiamo", "we feel"],
+  ["vi sentite", "you (pl.) feel"],
+  ["si sentono", "they feel"],
+
+  ["mi siedo", "I sit down"],
+  ["ti siedi", "you sit down"],
+  ["si siede", "he/she sits down"],
+  ["ci sediamo", "we sit down"],
+  ["vi sedete", "you (pl.) sit down"],
+  ["si siedono", "they sit down"],
+
+  ["mi faccio", "I do/make (for myself)"],
+  ["ti fai", "you do/make"],
+  ["si fa", "he/she does/makes"],
+  ["ci facciamo", "we do/make"],
+  ["vi fate", "you (pl.) do/make"],
+  ["si fanno", "they do/make"],
+
+  ["mi accorgo", "I notice"],
+  ["ti accorgi", "you notice"],
+  ["si accorge", "he/she notices"],
+  ["ci accorgiamo", "we notice"],
+  ["vi accorgete", "you (pl.) notice"],
+  ["si accorgono", "they notice"]
+];
+
+let pageTitle = "Reflexive Verbs";
+
+// Performance optimizations
+let selectedEnglish = null;
+let matchesLeft = 0;
+let currentSet = [];
+
+// Use document fragment for better performance
+function createCard(text, matchValue, isItalian = false) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.textContent = text;
+  card.dataset.match = matchValue;
+  
+  if (isItalian) {
+    card.addEventListener("click", () => selectItalian(card), { passive: true });
+  } else {
+    card.addEventListener("click", () => selectEnglish(card), { passive: true });
+  }
+  
+  return card;
+}
+
+function getWeightedRandomWords(count) {
+  // Simple shuffle for better performance on mobile
+  const shuffled = [...words].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, words.length));
+}
+
+function renderGame() {
+  currentSet = getWeightedRandomWords(8);
+  matchesLeft = currentSet.length;
+  
+  const englishCol = document.getElementById("english-column");
+  const italianCol = document.getElementById("italian-column");
+  const nextButton = document.getElementById("next-round");
+  
+  // Clear columns efficiently
+  englishCol.textContent = '';
+  italianCol.textContent = '';
+  nextButton.style.display = "none";
+  
+  // Create document fragments for better performance
+  const englishFragment = document.createDocumentFragment();
+  const italianFragment = document.createDocumentFragment();
+  
+  // Shuffle Italian words
+  const italianShuffled = [...currentSet].sort(() => Math.random() - 0.5);
+  
+  // Create cards
+  currentSet.forEach(([italian, english]) => {
+    const englishCard = createCard(italian, english, false);
+    englishFragment.appendChild(englishCard);
+  });
+  
+  italianShuffled.forEach(([italian, english]) => {
+    const italianCard = createCard(english, english, true);
+    italianFragment.appendChild(italianCard);
+  });
+  
+  // Append all at once for better performance
+  englishCol.appendChild(englishFragment);
+  italianCol.appendChild(italianFragment);
+  
+  selectedEnglish = null;
+}
+
+function selectEnglish(card) {
+  if (card.classList.contains("correct")) return;
+  
+  // Remove selection from all cards efficiently
+  const selected = document.querySelector("#english-column .card.selected");
+  if (selected) selected.classList.remove("selected");
+  
+  selectedEnglish = card;
+  card.classList.add("selected");
+}
+
+function selectItalian(card) {
+  if (!selectedEnglish || card.classList.contains("correct")) return;
+  
+  if (selectedEnglish.dataset.match === card.dataset.match) {
+    // Correct match
+    selectedEnglish.classList.add("correct");
+    card.classList.add("correct");
+    selectedEnglish.classList.remove("selected");
+    selectedEnglish = null;
+    matchesLeft--;
+    
+    if (matchesLeft === 0) {
+      document.getElementById("next-round").style.display = "inline-block";
+    }
+  } else {
+    // Wrong match
+    card.classList.add("wrong");
+    setTimeout(() => {
+      card.classList.remove("wrong");
+    }, 300);
+  }
+}
+
+// Event delegation for better performance
+document.getElementById("next-round").addEventListener("click", renderGame, { passive: true });
+
+// Initialize the game
+renderGame();
+
+// Set page title
+document.getElementById("page-title").textContent = pageTitle;
+</script>
+
+</body>
+</html>

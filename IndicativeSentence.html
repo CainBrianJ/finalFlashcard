@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italian Vocabulary</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f6f6f6;
+    color: #333;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  h1 {
+    margin: 10px 0 20px;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 600;
+  }
+  
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* two equal columns */
+  gap: clamp(10px, 3vw, 30px);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 5px;
+  align-items: stretch; /* force equal column height */
+}
+  
+  .column {
+  display: grid;
+  grid-auto-rows: 1fr; /* every card row same height */
+  gap: 8px;
+}
+  
+.card {
+  background: white;
+  padding: clamp(8px, 3vw, 15px) clamp(10px, 3vw, 20px);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  font-size: clamp(0.85rem, 3.5vw, 1rem);
+  word-wrap: break-word;
+  hyphens: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px solid transparent;
+}
+  
+  .card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  }
+  
+  .card:active {
+    transform: translateY(0);
+  }
+  
+  .card.selected {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+  }
+  
+  .card.correct {
+    background: #e8f5e8;
+    border-color: #4caf50;
+    text-decoration: line-through;
+    cursor: default;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  
+  .card.wrong {
+    background: #ffebee;
+    border-color: #f44336;
+    animation: shake 0.3s;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+  }
+  
+  #next-round {
+    margin: 20px auto 10px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+    min-height: 44px;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  }
+  
+  #next-round:hover {
+    background: #1976d2;
+  }
+  
+  #next-round:active {
+    background: #1565c0;
+  }
+  
+.home-link a {
+  display: inline-block;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #008C45 0%, #CD212A 100%);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.18);
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.home-link a:hover {
+  background: linear-gradient(90deg, #1976d2 0%, #00bcd4 100%);
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.28);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.home-link a:active {
+  background: linear-gradient(90deg, #1565c0 0%, #0097a7 100%);
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.15);
+  transform: translateY(0) scale(0.98);
+}
+  
+  /* Mobile optimizations */
+  @media (max-width: 480px) {
+    body {
+      padding: 5px;
+    }
+    
+    .game-container {
+      gap: 8px;
+      padding: 0 2px;
+    }
+    
+    .column {
+      gap: 6px;
+    }
+    
+    .card {
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      margin: 5px 0 15px;
+
+    }
+        #next-round {
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      transform: none;
+      max-width: calc(100vw - 20px);
+    }
+  }
+
+    /* Larger screens - show button inline */
+  @media (min-width: 769px) {
+    .game-container {
+      padding-bottom: 0;
+    }
+    
+    #next-round {
+      position: static;
+      transform: none;
+      margin: 20px auto 10px;
+      box-shadow: none;
+    }
+  }
+  
+  /* Prevent zoom on double tap */
+  .card {
+    touch-action: manipulation;
+  }
+</style>
+</head>
+<body>
+<h1 id="page-title">Indicative Sentences</h1>
+<div class="home-link">
+  <p><a href="index.html">Flashcard Home</a></p>
+</div>
+<div class="game-container">
+  <div id="english-column" class="column"></div>
+  <div id="italian-column" class="column"></div>
+</div>
+<button id="next-round">Next Round</button>
+
+<script>
+// Default dataset - will be replaced by page-specific data
+let words = [
+["Vivo in questa città da molti anni.", "I have lived in this city for many years."],
+["Lavoro troppo durante la settimana.", "I work too much during the week."],
+["Non capisco cosa vuoi dire.", "I don’t understand what you mean."],
+["Ogni mattina mi sveglio alle sette.", "Every morning I wake up at seven."],
+["Bevo sempre un caffè prima di uscire.", "I always drink a coffee before leaving."],
+["Penso che hai ragione.", "I think you are right."],
+["Non ho tempo per parlare adesso.", "I don’t have time to talk right now."],
+["Mi piace questo ristorante.", "I like this restaurant."],
+["Di solito prendiamo il treno.", "We usually take the train."],
+["Sai dove si trova la stazione?", "Do you know where the station is?"],
+["Aspetto una tua risposta.", "I’m waiting for your answer."],
+["Non trovo le chiavi.", "I can’t find the keys."],
+["Preferisco restare a casa stasera.", "I prefer to stay home tonight."],
+["Ogni tanto andiamo al cinema.", "From time to time we go to the movies."],
+["Credo che sia una buona idea.", "I believe it’s a good idea."],
+["Mi sembra tutto molto chiaro.", "Everything seems very clear to me."],
+["Ceniamo sempre verso le otto.", "We always have dinner around eight."],
+["Non ricordo il suo nome.", "I don’t remember his name."],
+["Cerco di fare del mio meglio.", "I try to do my best."],
+["Hai bisogno di aiuto?", "Do you need help?"],
+["Non voglio discutere adesso.", "I don’t want to argue right now."],
+["Costa troppo per me.", "It costs too much for me."],
+["Parli troppo velocemente.", "You speak too fast."],
+["Capisco perfettamente la situazione.", "I understand the situation perfectly."],
+["Sento che qualcosa non va.", "I feel that something isn’t right."],
+["Quando ero piccolo, giocavo sempre fuori.", "When I was little, I always played outside."],
+["Ogni estate andavamo al mare.", "Every summer we used to go to the beach."],
+["Faceva molto freddo quella sera.", "It was very cold that evening."],
+["Pensavo che fosse più facile.", "I thought it was easier."],
+["Non sapevo cosa dire.", "I didn’t know what to say."],
+["Mentre parlavi, io ascoltavo in silenzio.", "While you were speaking, I was listening in silence."],
+["Volevo chiamarti, ma era troppo tardi.", "I wanted to call you, but it was too late."],
+["Sembrava tutto perfetto.", "Everything seemed perfect."],
+["Credevo che avessi capito.", "I thought you had understood."],
+["Abitavamo vicino al centro.", "We used to live near the center."],
+["Studiavo molto per quell’esame.", "I was studying a lot for that exam."],
+["Lavorava lì da molti anni.", "He used to work there for many years."],
+["Ogni giorno prendevo l’autobus.", "Every day I used to take the bus."],
+["Mi chiedevo se fosse la scelta giusta.", "I wondered if it was the right choice."],
+["Non volevo disturbarti.", "I didn’t want to bother you."],
+["Pioveva da ore.", "It had been raining for hours."],
+["C’era molta gente alla festa.", "There were many people at the party."],
+["Leggevo un libro quando mi hai chiamato.", "I was reading a book when you called me."],
+["Pensavamo di avere più tempo.", "We thought we had more time."],
+["Tutti ridevano per la battuta.", "Everyone was laughing at the joke."],
+["Mi sentivo molto stanco.", "I was feeling very tired."],
+["Parlavamo spesso di quel viaggio.", "We often talked about that trip."],
+["Vivevano in campagna da sempre.", "They had always lived in the countryside."],
+["Aspettavo una risposta da giorni.", "I had been waiting for an answer for days."],
+["Non capivo cosa stesse succedendo.", "I didn’t understand what was happening."],
+["Ieri ho finito il lavoro tardi.", "Yesterday I finished work late."],
+["Abbiamo visto quel film insieme.", "We watched that movie together."],
+["Hai parlato con lui?", "Did you speak with him?"],
+["Mi sono dimenticato dell’appuntamento.", "I forgot about the appointment."],
+["Siamo arrivati troppo presto.", "We arrived too early."],
+["Ho comprato un regalo per te.", "I bought a gift for you."],
+["Hanno cambiato programma all’ultimo momento.", "They changed the plan at the last minute."],
+["Ho perso il treno.", "I missed the train."],
+["Hai già mangiato?", "Have you already eaten?"],
+["Abbiamo deciso di partire domani.", "We decided to leave tomorrow."],
+["Mi hai chiamato ieri sera.", "You called me last night."],
+["Ho capito tutto.", "I understood everything."],
+["Siamo rimasti a casa tutto il giorno.", "We stayed home all day."],
+["Ha trovato un nuovo lavoro.", "He found a new job."],
+["Ho cambiato idea.", "I changed my mind."],
+["Abbiamo finito il progetto.", "We finished the project."],
+["Hai visto le mie chiavi?", "Have you seen my keys?"],
+["Mi sono svegliato tardi.", "I woke up late."],
+["Ho parlato con i miei genitori.", "I spoke with my parents."],
+["Hanno aperto un nuovo ristorante.", "They opened a new restaurant."],
+["Ho letto quel libro.", "I read that book."],
+["Siamo usciti nonostante la pioggia.", "We went out despite the rain."],
+["Hai ricevuto il mio messaggio?", "Did you receive my message?"],
+["Ho preparato la cena.", "I prepared dinner."],
+["Abbiamo perso troppo tempo.", "We wasted too much time."],
+["Domani ti chiamerò.", "Tomorrow I will call you."],
+["Andremo al mare questo weekend.", "We will go to the beach this weekend."],
+["Vedrai che andrà tutto bene.", "You’ll see that everything will be fine."],
+["Quando arriverai, troverai tutto pronto.", "When you arrive, you will find everything ready."],
+["Non so cosa farò.", "I don’t know what I will do."],
+["Partiremo presto domani mattina.", "We will leave early tomorrow morning."],
+["Ti farò sapere appena possibile.", "I will let you know as soon as possible."],
+["Sarà una giornata difficile.", "It will be a difficult day."],
+["Ci vedremo presto.", "We will see each other soon."],
+["Capirai col tempo.", "You will understand with time."],
+["Se continuerai così, avrai successo.", "If you continue like this, you will succeed."],
+["Comprerò un nuovo telefono.", "I will buy a new phone."],
+["Finiremo tutto entro stasera.", "We will finish everything by tonight."],
+["Mi scriverai quando arrivi?", "Will you write to me when you arrive?"],
+["Troveranno una soluzione.", "They will find a solution."],
+["Speriamo che andrà bene.", "We hope it will go well."],
+["Domani farà bel tempo.", "Tomorrow the weather will be nice."],
+["Ti aiuterò con piacere.", "I will gladly help you."],
+["Sarà meglio aspettare.", "It will be better to wait."],
+["Ci penserò io.", "I will take care of it."],
+["Avremo più tempo la prossima settimana.", "We will have more time next week."],
+["Non dimenticherò quello che hai detto.", "I will not forget what you said."],
+["Preparerò tutto prima di uscire.", "I will prepare everything before leaving."],
+["Arriveranno tra poco.", "They will arrive shortly."],
+["Festeggeremo insieme.", "We will celebrate together."],
+];
+
+let pageTitle = "Indicative Sentences";
+
+// Performance optimizations
+let selectedEnglish = null;
+let matchesLeft = 0;
+let currentSet = [];
+
+// Use document fragment for better performance
+function createCard(text, matchValue, isItalian = false) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.textContent = text;
+  card.dataset.match = matchValue;
+  
+  if (isItalian) {
+    card.addEventListener("click", () => selectItalian(card), { passive: true });
+  } else {
+    card.addEventListener("click", () => selectEnglish(card), { passive: true });
+  }
+  
+  return card;
+}
+
+function getWeightedRandomWords(count) {
+  // Simple shuffle for better performance on mobile
+  const shuffled = [...words].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, words.length));
+}
+
+function renderGame() {
+  currentSet = getWeightedRandomWords(8);
+  matchesLeft = currentSet.length;
+  
+  const englishCol = document.getElementById("english-column");
+  const italianCol = document.getElementById("italian-column");
+  const nextButton = document.getElementById("next-round");
+  
+  // Clear columns efficiently
+  englishCol.textContent = '';
+  italianCol.textContent = '';
+  nextButton.style.display = "none";
+  
+  // Create document fragments for better performance
+  const englishFragment = document.createDocumentFragment();
+  const italianFragment = document.createDocumentFragment();
+  
+  // Shuffle Italian words
+  const italianShuffled = [...currentSet].sort(() => Math.random() - 0.5);
+  
+  // Create cards
+  currentSet.forEach(([italian, english]) => {
+    const englishCard = createCard(italian, english, false);
+    englishFragment.appendChild(englishCard);
+  });
+  
+  italianShuffled.forEach(([italian, english]) => {
+    const italianCard = createCard(english, english, true);
+    italianFragment.appendChild(italianCard);
+  });
+  
+  // Append all at once for better performance
+  englishCol.appendChild(englishFragment);
+  italianCol.appendChild(italianFragment);
+  
+  selectedEnglish = null;
+}
+
+function selectEnglish(card) {
+  if (card.classList.contains("correct")) return;
+  
+  // Remove selection from all cards efficiently
+  const selected = document.querySelector("#english-column .card.selected");
+  if (selected) selected.classList.remove("selected");
+  
+  selectedEnglish = card;
+  card.classList.add("selected");
+}
+
+function selectItalian(card) {
+  if (!selectedEnglish || card.classList.contains("correct")) return;
+  
+  if (selectedEnglish.dataset.match === card.dataset.match) {
+    // Correct match
+    selectedEnglish.classList.add("correct");
+    card.classList.add("correct");
+    selectedEnglish.classList.remove("selected");
+    selectedEnglish = null;
+    matchesLeft--;
+    
+    if (matchesLeft === 0) {
+      document.getElementById("next-round").style.display = "inline-block";
+    }
+  } else {
+    // Wrong match
+    card.classList.add("wrong");
+    setTimeout(() => {
+      card.classList.remove("wrong");
+    }, 300);
+  }
+}
+
+// Event delegation for better performance
+document.getElementById("next-round").addEventListener("click", renderGame, { passive: true });
+
+// Initialize the game
+renderGame();
+
+// Set page title
+document.getElementById("page-title").textContent = pageTitle;
+</script>
+
+</body>
+</html>

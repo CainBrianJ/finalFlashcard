@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IRE Verbs — Italian Verb Matching</title><link rel="stylesheet" href="styles.css"></head>
+<body data-category="ire">
+<header><div class="header-inner"><h1 id="pageTitle">IRE Verbs</h1><div class="subtitle" id="pageSubtitle"></div></div></header>
+<main>
+<a class="back" href="verbTutorialIndex.html">← Back to verb groups</a>
+<div class="toolbar">
+<div class="stats">Round <span id="round">1</span> · Matched <span id="matched">0</span>/10 · Score <span id="score">0</span></div>
+<div class="controls"><label for="verbSelect">Practice:</label><select id="verbSelect"></select><select id="tenseSelect" aria-label="Choose a tense or mood"><option value="">Tenses &amp; Moods…</option><optgroup label="Indicative"><option value="presente-indicativo">Present Indicative</option><option value="passato-prossimo">Passato Prossimo</option><option value="imperfetto">Imperfect Indicative</option><option value="trapassato-prossimo">Trapassato Prossimo</option><option value="passato-remoto">Passato Remoto</option><option value="trapassato-remoto">Trapassato Remoto</option><option value="futuro-semplice">Future Indicative</option><option value="futuro-anteriore">Future Perfect</option></optgroup><optgroup label="Subjunctive"><option value="congiuntivo-presente">Present Subjunctive</option><option value="congiuntivo-passato">Past Subjunctive</option><option value="congiuntivo-imperfetto">Imperfect Subjunctive</option><option value="congiuntivo-trapassato">Pluperfect Subjunctive</option></optgroup><optgroup label="Conditional"><option value="condizionale-presente">Present Conditional</option><option value="condizionale-passato">Past Conditional</option></optgroup><optgroup label="Other Forms"><option value="imperativo">Imperative</option><option value="infinito-presente">Present Infinitive</option><option value="infinito-passato">Past Infinitive</option><option value="gerundio-presente">Present Gerund</option><option value="gerundio-passato">Past Gerund</option><option value="participio-presente">Present Participle</option><option value="participio-passato">Past Participle</option></optgroup></select><button class="primary" id="newRound">New Round</button><button id="shuffle">Shuffle</button></div>
+</div>
+<div class="progress"><div id="progressBar"></div></div>
+<div class="message" id="message">Select an Italian card, then select its English match.</div>
+<section class="board">
+<div class="column"><h2>Italian</h2><div class="cards" id="italianCards"></div></div>
+<div class="column"><h2>English</h2><div class="cards" id="englishCards"></div></div>
+</section>
+<div id="complete"></div>
+<div class="help"><strong>How to play:</strong> Click an Italian card first, then click the English card that matches it. Correct matches turn green and move to the top in aligned pairs; incorrect choices shake and turn red.</div>
+</main>
+<div class="tense-modal" id="tenseModal" aria-hidden="true"><div class="tense-backdrop" id="tenseBackdrop"></div><div class="tense-dialog" role="dialog" aria-modal="true" aria-labelledby="tenseModalTitle"><button class="modal-close" id="tenseClose" aria-label="Close">×</button><div class="modal-label">Italian Grammar</div><h2 id="tenseModalTitle"></h2><p id="tenseDefinition"></p><h3>Examples</h3><div id="tenseExamples"></div></div></div>
+<script src="data.js"></script><script src="tenses.js"></script><script src="app.js"></script></body></html>

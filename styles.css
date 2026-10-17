@@ -1,0 +1,76 @@
+*{box-sizing:border-box}
+:root{--red:#b52b32;--green:#23834b;--ink:#1d2421;--muted:#65706b;--paper:#f7f5ef;--card:#fff;--line:#dfe3df;--shadow:0 8px 24px rgba(20,30,25,.08)}
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper)}
+header{background:linear-gradient(90deg,var(--green) 0 33.33%,#fff 33.33% 66.66%,var(--red) 66.66%);padding:5px 0}
+.header-inner{background:rgba(255,255,255,.96);padding:18px 22px 16px;text-align:center}
+h1{margin:0;font-size:clamp(1.35rem,3vw,2rem)}
+.subtitle{color:var(--muted);margin-top:4px}
+main{max-width:1100px;margin:0 auto;padding:20px}
+a{color:inherit}
+.home-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.home-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;text-decoration:none;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.home-card:hover{transform:translateY(-2px);border-color:#aeb8b2}
+.home-card h2{margin:0 0 7px}
+.home-card p{margin:0;color:var(--muted)}
+.home-card .verbs{margin-top:14px;font-size:.9rem;color:#4e5954}
+.back{display:inline-block;margin-bottom:12px;color:var(--muted);text-decoration:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.stats{font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button,select{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}
+button:hover,select:hover{border-color:#aeb8b2}
+button.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+select{min-width:210px}
+.message{min-height:24px;color:var(--muted);margin:8px 0}
+.progress{height:8px;background:#e5e7e5;border-radius:99px;overflow:hidden;margin:8px 0 18px}
+.progress>div{height:100%;background:var(--green);width:0;transition:width .2s}
+.board{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.column h2{font-size:1rem;margin:0 0 8px;color:var(--muted)}
+.cards{display:grid;gap:10px}
+.card{min-height:76px;width:100%;border:2px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow);padding:12px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:1rem;line-height:1.3;transition:transform .14s,border-color .14s,background .14s,opacity .18s;user-select:none;cursor:pointer}
+.card small{margin-top:4px;color:var(--muted);font-size:.72rem;font-weight:600}
+.card.selected{border-color:#3e6eaa;background:#eef5ff;transform:translateY(-2px)}
+.card.correct{border-color:var(--green);background:#eaf7ef}
+.card.wrong{border-color:var(--red);background:#fff0f0;animation:shake .28s}
+.card.matched{border-color:var(--green);background:#dff2e6;color:#175c37;pointer-events:none;cursor:default;box-shadow:none}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.complete{text-align:center;padding:25px 10px;background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:18px}
+.help{margin-top:18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:.93rem}
+/* Responsive layout: keep Italian and English aligned in two columns on phones. */
+@media(max-width:700px){
+  main{padding:14px 12px}
+  .header-inner{padding:15px 12px 13px}
+  .home-grid{grid-template-columns:1fr;gap:12px;margin-top:18px}
+  .home-card{padding:19px}
+  .toolbar{display:flex;align-items:stretch;flex-direction:column;gap:12px}
+  .stats{font-size:.92rem;line-height:1.5}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .controls label{grid-column:1 / -1;margin-bottom:-4px}
+  .controls select{width:100%;min-width:0;max-width:100%;font-size:16px;padding:11px 9px}
+  .controls #verbSelect,.controls #tenseSelect{grid-column:1 / -1}
+  .controls button{width:100%;min-height:44px;padding:10px 8px}
+  .board{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .column{min-width:0}
+  .column h2{font-size:.9rem;margin-bottom:7px}
+  .cards{gap:8px}
+  .card{min-width:0;min-height:66px;padding:9px 5px;font-size:clamp(.76rem,3.4vw,.92rem);line-height:1.25;overflow-wrap:anywhere;word-break:normal;border-radius:11px}
+  .card small{font-size:.65rem;overflow-wrap:anywhere}
+  .message{font-size:.9rem;line-height:1.4}
+  .help{font-size:.88rem;padding:12px}
+  .tense-dialog{width:calc(100% - 20px);max-height:calc(100% - 20px);margin:10px auto;padding:23px 16px 18px;border-radius:14px}
+  .tense-dialog h2{font-size:1.25rem}
+  .tense-example{padding:11px}
+  .tense-example .italian{font-size:.98rem;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+  main{padding:12px 8px}
+  .board{gap:6px}
+  .cards{gap:6px}
+  .card{padding:8px 3px;font-size:.74rem;min-height:62px}
+  .card small{font-size:.6rem}
+  .controls{gap:6px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+.tense-modal{display:none;position:fixed;inset:0;z-index:1000}.tense-modal.open{display:block}.tense-backdrop{position:absolute;inset:0;background:rgba(20,25,22,.55);backdrop-filter:blur(2px)}.tense-dialog{position:relative;width:min(680px,calc(100% - 28px));max-height:calc(100vh - 40px);overflow:auto;margin:20px auto;background:#fff;border-radius:18px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.22)}.modal-close{position:absolute;right:12px;top:10px;border:0;background:transparent;font-size:28px;line-height:1;padding:5px 9px;color:#66716c}.modal-label{text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;font-weight:800;color:#23834b;margin-bottom:5px}.tense-dialog h2{margin:0 35px 10px 0;font-size:1.5rem}.tense-dialog>p{color:#4f5955;line-height:1.55;margin:0 0 20px}.tense-dialog h3{font-size:1rem;margin:0 0 10px}.tense-example{border:1px solid #dfe3df;border-radius:11px;padding:12px 14px;margin:8px 0;background:#fafbf9}.tense-example .italian{font-weight:750;font-size:1.02rem}.tense-example .translation{color:#65706b;margin-top:4px}
